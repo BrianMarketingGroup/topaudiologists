@@ -10,32 +10,21 @@ const STEPS: { step: WizardStep; label: string }[] = [
   { step: 3, label: "Complete" },
   { step: 4, label: "Enhancements" },
   { step: 5, label: "Listing Info" },
-  { step: 6, label: "Thank You" },
 ];
-
-const WINDOW_SIZE = 3;
-const MAX_WINDOW_START = STEPS.length - WINDOW_SIZE + 1;
-
-function getWindowStart(step: WizardStep): number {
-  return Math.min(step, MAX_WINDOW_START);
-}
 
 export default function StepProgress() {
   const step = useCheckoutStore((s) => s.step);
   const furthestStep = useCheckoutStore((s) => s.furthestStep);
   const goToStep = useCheckoutStore((s) => s.goToStep);
 
-  const windowStart = getWindowStart(step);
-  const visibleSteps = STEPS.slice(windowStart - 1, windowStart - 1 + WINDOW_SIZE);
-
   return (
     <nav aria-label="Checkout progress" className="mb-8">
       <ol className="flex items-center w-full">
-        {visibleSteps.map(({ step: s, label }, i) => {
+        {STEPS.map(({ step: s, label }, i) => {
           const isCompleted = s < step;
           const isCurrent = s === step;
           const isReachable = s <= furthestStep;
-          const isLast = i === visibleSteps.length - 1;
+          const isLast = i === STEPS.length - 1;
 
           return (
             <li key={s} className={clsx("flex items-center", !isLast && "flex-1")}>

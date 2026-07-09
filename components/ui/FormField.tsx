@@ -1,3 +1,4 @@
+import * as React from "react";
 import { clsx } from "clsx";
 
 interface FormFieldProps {
@@ -44,19 +45,19 @@ const inputBase =
 const inputVariant = (error?: string) =>
   error ? "border-danger/60" : "border-border hover:border-accent/50";
 
-export function Input({
-  error,
-  className,
-  ...props
-}: React.InputHTMLAttributes<HTMLInputElement> & { error?: string }) {
+export const Input = React.forwardRef<
+  HTMLInputElement,
+  React.InputHTMLAttributes<HTMLInputElement> & { error?: string }
+>(function Input({ error, className, ...props }, ref) {
   return (
     <input
+      ref={ref}
       aria-invalid={!!error}
       className={clsx(inputBase, inputVariant(error), className)}
       {...props}
     />
   );
-}
+});
 
 export function Textarea({
   error,

@@ -2,7 +2,9 @@ import { z } from "zod";
 
 const stateSchema = z.string().min(2, "Select a state");
 const zipSchema = z.string().regex(/^\d{5}(-\d{4})?$/, "Enter a valid ZIP code");
-const phoneSchema = z.string().min(10, "Enter a valid phone number");
+const phoneSchema = z
+  .string()
+  .refine((v) => v.replace(/\D/g, "").length === 10, "Enter a valid 10-digit phone number");
 
 // ---------------------------------------------------------------------------
 // Screen 1 — Select Market

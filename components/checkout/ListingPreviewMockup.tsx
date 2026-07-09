@@ -1,8 +1,10 @@
 "use client";
 
-import { Star, MapPin, Building2 } from "lucide-react";
+import { useMemo } from "react";
+import { Star, MapPin } from "lucide-react";
 import type { UploadedFileMeta } from "@/lib/store/checkoutStore";
 import type { SelectedMarket } from "@/lib/checkoutMarkets";
+import { previewBusinesses } from "@/content/previewBusinesses";
 
 export default function ListingPreviewMockup({
   businessName,
@@ -19,6 +21,11 @@ export default function ListingPreviewMockup({
   logo?: UploadedFileMeta;
   hasFeatured?: boolean;
 }) {
+  const placeholderImage = useMemo(
+    () => previewBusinesses[Math.floor(Math.random() * previewBusinesses.length)].imageUrl,
+    [],
+  );
+
   return (
     <div className="rounded-2xl border border-border bg-card p-6">
       <p className="text-xs font-semibold uppercase tracking-wide text-muted mb-3">
@@ -30,7 +37,8 @@ export default function ListingPreviewMockup({
             // eslint-disable-next-line @next/next/no-img-element -- blob: object URL, next/image can't optimize it
             <img src={logo.previewUrl} alt="Logo" className="h-full w-full object-cover" />
           ) : (
-            <Building2 size={22} className="text-primary" />
+            // eslint-disable-next-line @next/next/no-img-element -- remote stock photo, placeholder only
+            <img src={placeholderImage} alt="" aria-hidden className="h-full w-full object-cover" />
           )}
         </div>
         <div className="min-w-0 flex-1">

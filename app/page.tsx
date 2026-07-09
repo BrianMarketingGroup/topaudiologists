@@ -208,20 +208,14 @@ export default function HomePage() {
             </div>
           </FadeIn>
           <div className="flex flex-wrap justify-center gap-3 mb-12">
-            {SPECIALTY_TYPES.map((s, i) => {
-              const premium = s === "Hearing Aids";
-              return (
-                <FadeIn key={s} delay={i * 0.04} variant="luxe">
-                  <span className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 cursor-default hover:-translate-y-0.5
-                    ${premium
-                      ? "border-2 border-gold/60 text-gold-dark bg-amber-50 hover:bg-amber-100"
-                      : "bg-slate-100 border border-slate-200 text-slate-700 hover:border-teal/50 hover:bg-teal/5 hover:text-teal"}`}>
-                    <Activity className={`h-3.5 w-3.5 flex-shrink-0 ${premium ? "text-gold" : "text-teal"}`} />
-                    {s}
-                  </span>
-                </FadeIn>
-              );
-            })}
+            {SPECIALTY_TYPES.map((s, i) => (
+              <FadeIn key={s} delay={i * 0.04} variant="luxe">
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 cursor-default hover:-translate-y-0.5 bg-slate-100 border border-slate-200 text-slate-700 hover:border-teal/50 hover:bg-teal/5 hover:text-teal">
+                  <Activity className="h-3.5 w-3.5 flex-shrink-0 text-teal" />
+                  {s}
+                </span>
+              </FadeIn>
+            ))}
           </div>
           <FadeIn delay={0.3} variant="luxe">
             <div className="text-center">
@@ -237,7 +231,7 @@ export default function HomePage() {
         <Container className="relative">
           <FadeIn variant="luxe">
             <div className="text-center mb-14">
-              <EyebrowLight tone="gold">Transparent Pricing</EyebrowLight>
+              <EyebrowLight>Transparent Pricing</EyebrowLight>
               <h2 className="race-head text-3xl sm:text-5xl text-navy-dark mb-4">One-Time Annual Fee</h2>
               <p className="text-slate-500 max-w-xl mx-auto">No subscriptions. No per-click fees. Pay once and your listing runs a full 12-month term.</p>
             </div>

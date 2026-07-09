@@ -8,6 +8,7 @@ import { FormField, Input, Textarea, Select } from "@/components/ui/FormField";
 import { useCheckoutStore } from "@/lib/store/checkoutStore";
 import { contactSchema, type ContactData } from "@/lib/checkoutSchema";
 import { ALL_STATES } from "@/lib/checkoutMarkets";
+import { formatPhoneNumber } from "@/lib/phone";
 import type { SiteConfig } from "@/lib/config";
 
 export default function Step2ContactInfo({ config: _config }: { config: SiteConfig }) {
@@ -32,6 +33,8 @@ export default function Step2ContactInfo({ config: _config }: { config: SiteConf
       plaqueZip: plaqueShipping?.zip ?? "",
     },
   });
+
+  const phoneField = register("phone");
 
   function onSubmit(values: ContactData) {
     setContact({
@@ -75,7 +78,21 @@ export default function Step2ContactInfo({ config: _config }: { config: SiteConf
               <Input type="email" {...register("email")} error={errors.email?.message} />
             </FormField>
             <FormField label="Phone Number" required error={errors.phone?.message}>
-              <Input type="tel" {...register("phone")} error={errors.phone?.message} />
+              <Input
+                type="tel"
+                inputMode="numeric"
+                placeholder="(555) 123-4567"
+                maxLength={14}
+                name={phoneField.name}
+                ref={phoneField.ref}
+                onBlur={phoneField.onBlur}
+                defaultValue={contact.phone}
+                onChange={(e) => {
+                  e.target.value = formatPhoneNumber(e.target.value);
+                  phoneField.onChange(e);
+                }}
+                error={errors.phone?.message}
+              />
             </FormField>
           </div>
           <div className="mt-4">

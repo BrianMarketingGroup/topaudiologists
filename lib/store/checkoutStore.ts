@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { getMarketById, type SelectedMarket } from "@/lib/checkoutMarkets";
 
-export type WizardStep = 1 | 2 | 3 | 4 | 5 | 6;
+export type WizardStep = 1 | 2 | 3 | 4 | 5;
 
 export interface ContactInfo {
   firstName: string;
@@ -109,6 +109,7 @@ function defaultListingInfo(): ListingInfo {
 interface CheckoutState {
   step: WizardStep;
   furthestStep: WizardStep;
+  submitted: boolean;
 
   selectedMarkets: SelectedMarket[];
   specialtyIds: string[];
@@ -129,6 +130,7 @@ interface CheckoutState {
   goToStep: (step: WizardStep) => void;
   goNext: () => void;
   goBack: () => void;
+  setSubmitted: (value: boolean) => void;
 
   addMarket: (marketId: string) => void;
   removeMarket: (marketId: string) => void;
@@ -155,6 +157,7 @@ type PersistedCheckoutState = Pick<
   CheckoutState,
   | "step"
   | "furthestStep"
+  | "submitted"
   | "selectedMarkets"
   | "specialtyIds"
   | "contact"
@@ -187,6 +190,7 @@ export const useCheckoutStore = create<CheckoutState>()(
     (set, get) => ({
       step: 1,
       furthestStep: 1,
+      submitted: false,
 
       selectedMarkets: [],
       specialtyIds: [],
@@ -209,11 +213,12 @@ export const useCheckoutStore = create<CheckoutState>()(
       },
       goNext: () =>
         set((state) => {
-          const next = Math.min(state.step + 1, 6) as WizardStep;
+          const next = Math.min(state.step + 1, 5) as WizardStep;
           return { step: next, furthestStep: Math.max(state.furthestStep, next) as WizardStep };
         }),
       goBack: () =>
         set((state) => ({ step: Math.max(state.step - 1, 1) as WizardStep })),
+      setSubmitted: (value) => set({ submitted: value }),
 
       addMarket: (marketId) =>
         set((state) => {
@@ -278,6 +283,7 @@ export const useCheckoutStore = create<CheckoutState>()(
         set({
           step: 1,
           furthestStep: 1,
+          submitted: false,
           selectedMarkets: [],
           specialtyIds: [],
           contact: initialContact,
@@ -312,6 +318,7 @@ export const useCheckoutStore = create<CheckoutState>()(
       partialize: (state) => ({
         step: state.step,
         furthestStep: state.furthestStep,
+        submitted: state.submitted,
         selectedMarkets: state.selectedMarkets,
         specialtyIds: state.specialtyIds,
         contact: state.contact,

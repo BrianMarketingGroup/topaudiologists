@@ -172,17 +172,14 @@ export default function AboutPage() {
             </div>
           </FadeIn>
           <div className="flex flex-wrap justify-center gap-3">
-            {SPECIALTY_TYPES.map((s, i) => {
-              const premium = s === "Hearing Aids";
-              return (
-                <FadeIn key={s} delay={i * 0.04} variant="luxe">
-                  <span className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium ${premium ? "border border-gold/50 text-gold-light bg-gold/[0.06]" : "glass text-pearl/90"}`}>
-                    <Heart className={`h-3.5 w-3.5 ${premium ? "text-gold" : "text-teal"}`} />
-                    {s}
-                  </span>
-                </FadeIn>
-              );
-            })}
+            {SPECIALTY_TYPES.map((s, i) => (
+              <FadeIn key={s} delay={i * 0.04} variant="luxe">
+                <span className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium glass text-pearl/90">
+                  <Heart className="h-3.5 w-3.5 text-teal" />
+                  {s}
+                </span>
+              </FadeIn>
+            ))}
           </div>
         </Container>
       </section>

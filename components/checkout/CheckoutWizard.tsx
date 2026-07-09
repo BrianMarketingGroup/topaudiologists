@@ -13,6 +13,7 @@ import Step6ThankYou from "./steps/Step6ThankYou";
 
 export default function CheckoutWizard({ config }: { config: SiteConfig }) {
   const step = useCheckoutStore((s) => s.step);
+  const submitted = useCheckoutStore((s) => s.submitted);
   const topRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
 
@@ -41,8 +42,8 @@ export default function CheckoutWizard({ config }: { config: SiteConfig }) {
         {step === 3 && <Step3Payment config={config} />}
         {step === 4 && <Step4Upsells config={config} />}
         {step === 5 && <Step5ListingInfo config={config} />}
-        {step === 6 && <Step6ThankYou config={config} />}
       </div>
+      {submitted && <Step6ThankYou config={config} />}
     </div>
   );
 }

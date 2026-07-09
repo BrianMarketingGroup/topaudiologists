@@ -7,6 +7,7 @@ import UpsellCard from "@/components/checkout/UpsellCard";
 import FeaturedCityOffer from "@/components/checkout/FeaturedCityOffer";
 import OrderSummarySidebar from "@/components/checkout/OrderSummarySidebar";
 import { useCheckoutStore } from "@/lib/store/checkoutStore";
+import { PRICING } from "@/lib/pricing";
 import type { SiteConfig } from "@/lib/config";
 
 export default function Step4Upsells({ config }: { config: SiteConfig }) {
@@ -52,16 +53,21 @@ export default function Step4Upsells({ config }: { config: SiteConfig }) {
                 </p>
               </div>
               <div className="space-y-4">
-                {selectedMarkets.map((market) => {
+                {selectedMarkets.map((market, idx) => {
                   const slotKey = `${market.city}|${market.state}`;
                   const isSoldOut = takenSlots.includes(slotKey);
+                  const featuredBefore = selectedMarkets
+                    .slice(0, idx)
+                    .filter((m) => m.featured).length;
+                  const price =
+                    featuredBefore === 0 ? PRICING.cityFeatured : PRICING.cityFeaturedAdditional;
                   return (
                     <FeaturedCityOffer
                       key={market.marketId}
                       city={market.city}
                       state={market.state}
                       businessNoun={config.businessNoun}
-                      price={config.featuredUpgradePrice}
+                      price={price}
                       isSelected={market.featured}
                       isSoldOut={isSoldOut}
                       onToggle={() => toggleMarketFeatured(market.marketId)}

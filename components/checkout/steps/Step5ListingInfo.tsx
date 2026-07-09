@@ -15,6 +15,7 @@ import { useCheckoutStore, type UploadKind } from "@/lib/store/checkoutStore";
 import { buildListingInfoNowSchema } from "@/lib/checkoutSchema";
 import { buildApplyPayload } from "@/lib/submission";
 import { ALL_STATES } from "@/lib/checkoutMarkets";
+import { formatPhoneNumber } from "@/lib/phone";
 import type { SiteConfig } from "@/lib/config";
 
 const UPLOAD_LABELS: Record<UploadKind, string> = {
@@ -68,7 +69,7 @@ export default function Step5ListingInfo({ config }: { config: SiteConfig }) {
       }
       store.setListingChoice(choice);
       store.setDebugSubmissionPayload(payload);
-      store.goNext();
+      store.setSubmitted(true);
     } catch {
       setSubmitError("Could not reach the server. Please check your connection and try again.");
     } finally {
@@ -200,8 +201,14 @@ export default function Step5ListingInfo({ config }: { config: SiteConfig }) {
               </FormField>
               <FormField label="Listing Phone Number" required error={errors.listingPhone}>
                 <Input
+                  type="tel"
+                  inputMode="numeric"
+                  placeholder="(555) 123-4567"
+                  maxLength={14}
                   value={info.listingPhone}
-                  onChange={(e) => store.setListingInfo({ listingPhone: e.target.value })}
+                  onChange={(e) =>
+                    store.setListingInfo({ listingPhone: formatPhoneNumber(e.target.value) })
+                  }
                   error={errors.listingPhone}
                 />
               </FormField>
