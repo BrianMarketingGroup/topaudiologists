@@ -170,7 +170,7 @@ export default function Hero() {
               className="text-lg sm:text-xl text-pearl/70 mb-9 max-w-xl leading-relaxed"
             >
               {siteConfig.name} connects patients, families, and referring physicians
-              with top hearing and balance care practices — and secures your city listing before the {siteConfig.directory.launch} launch.
+              with top hearing and balance care practices — Secure your city listing before the {siteConfig.directory.launch} launch.
             </motion.p>
 
             <motion.div
